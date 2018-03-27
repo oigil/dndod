@@ -12,9 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/oigil/dndod.git"
   },
-  "bugs": { 
-    "url" : "https://github.com/oigil/dndod/issues",
-    "email" : "oigil.jo@gmail.com"
+  "bugs": {
+    "url": "https://github.com/oigil/dndod/issues",
+    "email": "oigil.jo@gmail.com"
   },
   "scripts": {
     "dev": "gulp",

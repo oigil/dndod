@@ -7,7 +7,9 @@ const sass = require('gulp-sass')
 const del = require('del')
 const run = require('run-sequence')
 
-gulp.task('clean', () => del(['./dist']))
+gulp.task('clean', () => {
+    del(['./dist', './docs/dndod'])
+})
 
 const webpackConfig = minimize => ({
     output: {
@@ -24,8 +26,7 @@ const webpackConfig = minimize => ({
             }
         ]
     },
-    plugins: minimize
-        ? [
+    plugins: minimize ? [
             new Webpack.optimize.UglifyJsPlugin({
                 compress: { warnings: false },
                 mangle: true,
@@ -41,6 +42,7 @@ gulp.task('script', () => {
     .pipe(gulp.dest('./dist'))
     .pipe(webpack(webpackConfig(true), Webpack))
     .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./docs/dndod'))
 })
 
 gulp.task('style', () => {
@@ -50,6 +52,7 @@ gulp.task('style', () => {
     .pipe(cssnano())
     .pipe(rename('dndod-popup.min.css'))
     .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./docs/dndod'))
 })
 
 gulp.task('default', ['clean'], () => {
