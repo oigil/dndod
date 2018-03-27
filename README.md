@@ -1,4 +1,4 @@
-![logo](readme-logo.png)
+![logo](./docs/readme-logo.png)
 # dndod
 
 Simple and easy modal popup library. It needs no dependancy.    
@@ -7,7 +7,7 @@ Simple and easy modal popup library. It needs no dependancy.
 [Demo page](https://oigil.github.io/dndod/demo)
 
 
-![clip](readme-clip.gif)
+![clip](./docs/readme-clip.gif)
    
 ## Features
 * Alert, Confirm, Notice action with modal popup.
@@ -58,7 +58,7 @@ dndod.alert('Alert')
 ````javascript
 dndod.alert("Message", options);
 ````
-![alert](readme-alert.png)
+![alert](./docs/readme-alert.png)
         
 #### dndod.confirm(String, Function(), Object)
 ````javascript
@@ -66,13 +66,13 @@ dndod.confirm("Message", function(popup) {
     console.log("confirmed!");
 }, options);
 ````
-![confirm](readme-confirm.png)
+![confirm](./docs/readme-confirm.png)
 
 #### dndod.notice(String, Object)
 ````javascript
 dndod.notice("Message", options);
 ````
-![notice](readme-notice.png)
+![notice](./docs/readme-notice.png)
 
 #### dndod.popup(Object)
 ```` javascript
