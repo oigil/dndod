@@ -1,8 +1,12 @@
 ![logo](readme-logo.png)
 # dndod
 
-Simple and easy modal popup library. It needs no dependancy.
-   
+Simple and easy modal popup library. It needs no dependancy.    
+[https://github.com/oigil/dndod](https://github.com/oigil/dndod)   
+ 
+[Demo page](https://oigil.github.io/dndod/demo)
+
+
 ![clip](readme-clip.gif)
    
 ## Features
