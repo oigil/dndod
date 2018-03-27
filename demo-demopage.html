@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>dndod Test Page</title>
+
+    <style>
+        body {margin:40px;}
+        h1.logo {position:relative;width:130px;height:130px;margin-bottom:50px;background-color:#ffde00;color:rgba(0,0,0,0.85)}
+        h1.logo span {position:absolute;left:0px;top:35px;width:100%;text-align: center;line-height:20px;}
+        h1.logo small {display:block;font-weight:200;}
+        body > pre {max-height:500px;overflow:auto;background-color:rgba(0,0,0,0.9);padding:20px;color:#fff;font-size:16px;}
+        hr {margin:60px 0;border-color:#eaeaea}
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="dist/dndod-popup.min.css">
+    <script src="dist/dndod-popup.min.js"></script>
+</head>
+<body>
+<h1 class="logo">
+    <span>
+        dndod
+        <small>------</small>
+        popup
+    </span>
+</h1>
+
+<h2>dndod.alert(msg, options)</h2>
+<a href="javascript:;" id="showAlert">Show demo</a>
+<pre>dndod.alert('Alert example');</pre>
+
+<hr>
+<h2>dndod.confirm(msg, confirmCallback, options)</h2>
+<a href="javascript:;" id="showConfirm">Show demo</a>
+<pre>dndod.confirm("Confirm example.\nClick the 'Continue' button below.", function () {
+    dndod.notice("Confirmed!");
+});
+</pre>
+
+<hr>
+<h2>dndod.notice(msg, options)</h2>
+<a href="javascript:;" id="showNotice">Show demo</a>
+<pre>dndod.notice("Notice example");</pre>
+
+<hr>
+<h2>Disable animation</h2>
+<a href="javascript:;" id="showNoAnimation">Show demo</a>
+<pre>dndod.alert("Disabled 'animation' options", {
+    "animation": "none"
+});
+</pre>
+
+<hr>
+<h2>Nested popup</h2>
+<a href="javascript:;" id="showNested">Show demo</a>
+<pre>
+dndod.popup({
+    title: "Guide",
+    msg: "Example of the nested popup.\n Click the 'Continue' button below.",
+    buttons: [
+        {
+            text: "Cancel",
+            handler: function(e, popup) {
+                popup.close()
+            }
+        },
+        {
+            text: "Continue",
+            type: "warning",
+            handler: function(e, popup) {
+                dndod.popup({
+                    msg: "Click the 'Continue' button again.",
+                    buttons: [
+                        {
+                            text: "Cancel",
+                            handler: function(e, popup) {
+                                popup.close()
+                            }
+                        },
+                        {
+                            text: "Continue",
+                            type: "primary",
+                            handler: function(e, popup) {
+                                dndod.alert('Alert');
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+    ]
+});
+</pre>
+
+<hr>
+<h2>Multiple buttons</h2>
+<a href="javascript:;" id="showMultiBtn">Show demo</a>
+<pre>
+dndod.popup({
+    msg: "You can place multiple auto-width buttons.",
+    buttons: [
+        {
+            text: "Close",
+            handler: function(e, popup) {
+                popup.close()
+            }
+        },
+        {
+            text: "Action 1",
+            type: "kakaobank",
+            handler: function(e, popup) {
+                dndod.notice("Thank you")
+            }
+        },
+        {
+            text: "Action 2",
+            type: "primary",
+            handler: function(e, popup) {
+                dndod.notice("Muchas gracias")
+            }
+        },
+        {
+            text: "Action 3",
+            type: "info",
+            handler: function(e, popup) {
+                dndod.notice("감사합니다")
+            }
+        }
+    ]
+});
+</pre>
+
+
+
+<script>
+    showAlert.onclick = function () {
+        dndod.alert("Alert example.\nClick 'OK' or 'X' to close.\nOr you can just press ESC");
+    }
+
+    showConfirm.onclick = function () {
+        dndod.confirm("Confirm example.\nClick the 'Continue' button below.", function () {
+            dndod.notice("Confirmed!");
+        });
+    }
+
+    showNotice.onclick = function () {
+        dndod.notice("Notice example");
+    }
+
+    showNoAnimation.onclick = function () {
+        dndod.alert("Disabled 'animation' options", {
+            "animation": "none"
+        });
+    };
+
+    showNested.onclick = function () {
+        dndod.popup({
+            title: "Guide",
+            msg: "Example of the nested popup.\n Click the 'Continue' button below.",
+            buttons: [
+                {
+                    text: "Cancel",
+                    handler: function(e, popup) {
+                        popup.close()
+                    }
+                },
+                {
+                    text: "Continue",
+                    type: "warning",
+                    handler: function(e, popup) {
+                        dndod.popup({
+                            msg: "Click the 'Continue' button again.",
+                            buttons: [
+                                {
+                                    text: "Cancel",
+                                    handler: function(e, popup) {
+                                        popup.close()
+                                    }
+                                },
+                                {
+                                    text: "Continue",
+                                    type: "primary",
+                                    handler: function(e, popup) {
+                                        dndod.alert('Alert');
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                }
+            ]
+        });
+    }
+
+    showMultiBtn.onclick = function () {
+        dndod.popup({
+            msg: "You can place multiple auto-width buttons.",
+            buttons: [
+                {
+                    text: "Close",
+                    handler: function(e, popup) {
+                        popup.close()
+                    }
+                },
+                {
+                    text: "Action 1",
+                    type: "kakaobank",
+                    handler: function(e, popup) {
+                        dndod.notice("Thank you")
+                    }
+                },
+                {
+                    text: "Action 2",
+                    type: "primary",
+                    handler: function(e, popup) {
+                        dndod.notice("Muchas gracias")
+                    }
+                },
+                {
+                    text: "Action 3",
+                    type: "info",
+                    handler: function(e, popup) {
+                        dndod.notice("감사합니다")
+                    }
+                }
+            ]
+        });
+    }
+
+</script>
+</body>
+</html>

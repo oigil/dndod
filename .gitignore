@@ -1,0 +1,10 @@
+.idea
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+logs
+*.log
+npm-debug.log*
+.npm
+.DS_Store
+node_modules

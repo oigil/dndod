@@ -1,0 +1,53 @@
+{
+  "name": "dndod",
+  "version": "1.0.0",
+  "description": "simple and lightweight modal popup",
+  "author": "Cavin Jo <oigil.jo@gmail.com>",
+  "main": "./dist/dndod-popup.min.js",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oigil/dndod.git"
+  },
+  "bugs": { 
+    "url" : "https://github.com/oigil/dndod/issues",
+    "email" : "oigil.jo@gmail.com"
+  },
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp clean && gulp script && gulp style"
+  },
+  "keywords": [
+    "javascript",
+    "popup",
+    "modal",
+    "notification",
+    "alert",
+    "confirm",
+    "message"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-ie": "^6.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-webpack": "^1.5.0",
+    "run-sequence": "^2.2.1",
+    "webpack": "2.2.1"
+  },
+  "dependencies": {}
+}
