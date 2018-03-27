@@ -1,9 +1,9 @@
-![logo](demo-logo.png)
+![logo](readme-logo.png)
 # dndod
 
 Simple and easy modal popup library. It needs no dependancy.
    
-![clip](demo-clip.gif)
+![clip](readme-clip.gif)
    
 ## Features
 * Alert, Confirm, Notice action with modal popup.
@@ -24,7 +24,7 @@ Simple and easy modal popup library. It needs no dependancy.
 ## Getting Started
 #### npm
 ````bash
-$ npm install —save git+https://cavin.wow@gitlab2.kabang.io/cavin.wow/dndod.git
+$ npm install dndod
 ````
 
 ## Usage
@@ -54,7 +54,7 @@ dndod.alert('Alert')
 ````javascript
 dndod.alert("Message", options);
 ````
-![alert](demo-alert.png)
+![alert](readme-alert.png)
         
 #### dndod.confirm(String, Function(), Object)
 ````javascript
@@ -62,13 +62,13 @@ dndod.confirm("Message", function(popup) {
     console.log("confirmed!");
 }, options);
 ````
-![confirm](demo-confirm.png)
+![confirm](readme-confirm.png)
 
 #### dndod.notice(String, Object)
 ````javascript
 dndod.notice("Message", options);
 ````
-![notice](demo-notice.png)
+![notice](readme-notice.png)
 
 #### dndod.popup(Object)
 ```` javascript
