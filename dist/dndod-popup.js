@@ -122,6 +122,9 @@ var Popup = function () {
         this.$customBtnWrapper = null;
         this.$previousActiveElement = document.activeElement || null;
 
+        this.openTimeout = undefined;
+        this.closeTimeout = undefined;
+
         this.resizeHandler = null;
 
         var mergedOptions = _extends({}, originalOptions);
@@ -171,17 +174,27 @@ var Popup = function () {
             $wrapper.classList.add([this.options.prefixClass, "animate", this.options.animation].join("-"));
 
             $wrapper.classList.toggle([this.options.prefixClass, "no-outline"].join("-"), this.options.disableOutline === true);
+
+            if (this.options.animationDuration !== 250) {
+                $wrapper.style.transitionDuration = parseInt(this.options.animationDuration, 10) / 1000 + "s";
+            }
+
             $wrapper.setAttribute("tabindex", "0");
-            $wrapper.addEventListener("keydown", function (e) {
+
+            $wrapper.dndodKeydownHandler = function (e) {
                 e.stopPropagation();
                 if (e.keyCode === 27) {
                     _this.close();
                 }
-            });
-            $wrapper.addEventListener("click", function (e) {
+            };
+
+            $wrapper.dndodClickHandler = function (e) {
                 e.stopPropagation();
                 _this.close();
-            });
+            };
+
+            $wrapper.addEventListener("keydown", $wrapper.dndodKeydownHandler);
+            $wrapper.addEventListener("click", $wrapper.dndodClickHandler);
             return $wrapper;
         }
     }, {
@@ -192,6 +205,11 @@ var Popup = function () {
             var $popup = document.createElement("div");
             $popup.classList.add([this.options.prefixClass, "popup"].join("-"));
             $popup.classList.toggle([this.options.prefixClass, "text", this.options.textAlign].join("-"), this.options.textAlign !== "center");
+
+            if (this.options.animationDuration !== 250) {
+                $popup.style.transitionDuration = parseInt(this.options.animationDuration, 10) / 1000 + "s";
+            }
+
             $popup.setAttribute("tabindex", "0");
 
             var $title = document.createElement("h1");
@@ -215,10 +233,11 @@ var Popup = function () {
             $closeBtn.innerHTML = "&times;";
             $closeBtn.setAttribute("title", "Close this popup");
             $closeBtn.classList.add([this.options.prefixClass, "btn-close"].join("-"));
-            $closeBtn.addEventListener("click", function (e) {
+            $closeBtn.dndodClickHandler = function (e) {
                 e.stopPropagation();
                 _this2.close();
-            });
+            };
+            $closeBtn.addEventListener("click", $closeBtn.dndodClickHandler);
             return $closeBtn;
         }
     }, {
@@ -241,10 +260,11 @@ var Popup = function () {
             $customBtn.classList.add([this.options.prefixClass, "btn", buttonInfo.type].join("-"));
 
             if (typeof buttonInfo.handler === "function") {
-                $customBtn.addEventListener("click", function (e) {
+                $customBtn.dndodClickHandler = function (e) {
                     e.stopPropagation();
                     buttonInfo.handler(e, _this3);
-                });
+                };
+                $customBtn.addEventListener("click", $customBtn.dndodClickHandler);
             }
 
             this.$customBtnWrapper.appendChild($customBtn);
@@ -279,6 +299,16 @@ var Popup = function () {
             this.$popup.offsetHeight > window.innerHeight - 60 ? classList.add(oversizeClass) : classList.remove(oversizeClass);
         }
     }, {
+        key: "removeAllEventHandler",
+        value: function removeAllEventHandler() {
+            window.removeEventListener("resize", this.resizeHandler);
+            this.$wrapper.removeEventListener("keydown", this.$wrapper.dndodKeydownHandler);
+            this.$wrapper.removeEventListener("click", this.$wrapper.dndodClickHandler);
+            this.options.buttons.forEach(function (buttonInfo) {
+                buttonInfo.$button.removeEventListener("click", buttonInfo.$button.dndodClickHandler);
+            });
+        }
+    }, {
         key: "open",
         value: function open() {
             var _this5 = this;
@@ -288,6 +318,8 @@ var Popup = function () {
             this.options.animation === "none" && this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
             document.body.appendChild(this.$wrapper);
 
+            this.$previousActiveElement !== null && this.$previousActiveElement.blur();
+
             setTimeout(function () {
                 typeof _this5.options.events.mount === "function" && _this5.options.events.mount();
                 _this5.$wrapper.classList.add([_this5.options.prefixClass, "status-show"].join("-"));
@@ -296,7 +328,7 @@ var Popup = function () {
             if (this.options.animation === "none") {
                 this.$popup.focus();
             } else {
-                setTimeout(function () {
+                this.openTimeout = setTimeout(function () {
                     _this5.$popup.focus();
                 }, this.options.animationDuration);
             }
@@ -312,17 +344,17 @@ var Popup = function () {
 
             typeof this.options.events.close === "function" && this.options.events.close();
 
+            this.openTimeout && clearTimeout(this.openTimeout);
+            this.removeAllEventHandler();
+
             if (this.options.animation === "none") {
                 this.remove();
             } else {
                 this.$wrapper.classList.remove([this.options.prefixClass, "status-show"].join("-"));
-                setTimeout(function () {
+                this.closeTimeout = setTimeout(function () {
                     _this6.remove();
                 }, this.options.animationDuration);
             }
-
-            this.$previousActiveElement !== null && this.$previousActiveElement.focus();
-            window.removeEventListener("resize", this.resizeHandler);
 
             delete this;
         }
@@ -330,6 +362,8 @@ var Popup = function () {
         key: "remove",
         value: function remove() {
             var _this7 = this;
+
+            this.$previousActiveElement !== null && this.$previousActiveElement.focus();
 
             this.$wrapper.parentNode.removeChild(this.$wrapper);
             setTimeout(function () {

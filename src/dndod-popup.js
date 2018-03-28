@@ -25,6 +25,9 @@ class Popup {
         this.$customBtnWrapper = null;
         this.$previousActiveElement = document.activeElement || null;
 
+        this.openTimeout = undefined;
+        this.closeTimeout = undefined;
+
         this.resizeHandler = null;
 
         let mergedOptions = Object.assign({}, originalOptions);
@@ -67,17 +70,27 @@ class Popup {
         $wrapper.classList.add([this.options.prefixClass, "animate", this.options.animation].join("-"));
 
         $wrapper.classList.toggle([this.options.prefixClass, "no-outline"].join("-"), this.options.disableOutline === true);
+
+        if (this.options.animationDuration !== 250) {
+            $wrapper.style.transitionDuration = parseInt(this.options.animationDuration, 10) / 1000 + "s";
+        }
+
         $wrapper.setAttribute("tabindex", "0");
-        $wrapper.addEventListener("keydown", (e) => {
+
+        $wrapper.dndodKeydownHandler = (e) => {
             e.stopPropagation();
             if (e.keyCode === 27) {
                 this.close();
             }
-        });
-        $wrapper.addEventListener("click", (e) => {
+        }
+
+        $wrapper.dndodClickHandler = (e) => {
             e.stopPropagation();
             this.close();
-        });
+        }
+
+        $wrapper.addEventListener("keydown", $wrapper.dndodKeydownHandler);
+        $wrapper.addEventListener("click", $wrapper.dndodClickHandler);
         return $wrapper;
     }
 
@@ -87,6 +100,11 @@ class Popup {
         let $popup = document.createElement("div");
         $popup.classList.add([this.options.prefixClass,"popup"].join("-"));
         $popup.classList.toggle([this.options.prefixClass, "text", this.options.textAlign].join("-"), this.options.textAlign !== "center");
+
+        if (this.options.animationDuration !== 250) {
+            $popup.style.transitionDuration = parseInt(this.options.animationDuration, 10) / 1000 + "s";
+        }
+
         $popup.setAttribute("tabindex", "0");
 
         let $title = document.createElement("h1");
@@ -107,10 +125,11 @@ class Popup {
         $closeBtn.innerHTML = "&times;";
         $closeBtn.setAttribute("title", "Close this popup");
         $closeBtn.classList.add([this.options.prefixClass,"btn-close"].join("-"));
-        $closeBtn.addEventListener("click", (e) => {
+        $closeBtn.dndodClickHandler = (e) => {
             e.stopPropagation();
             this.close();
-        });
+        };
+        $closeBtn.addEventListener("click", $closeBtn.dndodClickHandler);
         return $closeBtn;
 
     }
@@ -130,10 +149,11 @@ class Popup {
         $customBtn.classList.add([this.options.prefixClass,"btn",buttonInfo.type].join("-"));
 
         if (typeof buttonInfo.handler === "function") {
-            $customBtn.addEventListener("click", (e) => {
+            $customBtn.dndodClickHandler = (e) => {
                 e.stopPropagation();
                 buttonInfo.handler(e, this);
-            });
+            }
+            $customBtn.addEventListener("click", $customBtn.dndodClickHandler);
         }
 
         this.$customBtnWrapper.appendChild($customBtn);
@@ -164,11 +184,22 @@ class Popup {
         (this.$popup.offsetHeight > window.innerHeight - 60) ? classList.add(oversizeClass) : classList.remove(oversizeClass);
     }
 
+    removeAllEventHandler() {
+        window.removeEventListener("resize", this.resizeHandler);
+        this.$wrapper.removeEventListener("keydown", this.$wrapper.dndodKeydownHandler);
+        this.$wrapper.removeEventListener("click", this.$wrapper.dndodClickHandler);
+        this.options.buttons.forEach(function(buttonInfo) {
+            buttonInfo.$button.removeEventListener("click", buttonInfo.$button.dndodClickHandler);
+        });
+    }
+
     open() {
         this.render(this.options.msg, this.options.title);
 
         this.options.animation === "none" && this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
         document.body.appendChild(this.$wrapper);
+        
+        this.$previousActiveElement !== null && this.$previousActiveElement.blur();
 
         setTimeout(() => {
             typeof this.options.events.mount === "function" && this.options.events.mount();
@@ -178,7 +209,7 @@ class Popup {
         if (this.options.animation === "none") {
             this.$popup.focus();
         } else {
-            setTimeout(() => {
+            this.openTimeout = setTimeout(() => {
                 this.$popup.focus();
             }, this.options.animationDuration);
         }
@@ -192,22 +223,24 @@ class Popup {
     close() {
         typeof this.options.events.close === "function" && this.options.events.close();
 
+        this.openTimeout && clearTimeout(this.openTimeout);
+        this.removeAllEventHandler();
+
         if (this.options.animation === "none") {
             this.remove();
         } else {
             this.$wrapper.classList.remove([this.options.prefixClass,"status-show"].join("-"));
-            setTimeout(() => {
+            this.closeTimeout = setTimeout(() => {
                 this.remove();
             }, this.options.animationDuration);
         }
-
-        this.$previousActiveElement !== null && this.$previousActiveElement.focus();
-        window.removeEventListener("resize", this.resizeHandler);
 
         delete this;
     }
 
     remove() {
+        this.$previousActiveElement !== null && this.$previousActiveElement.focus();
+
         this.$wrapper.parentNode.removeChild(this.$wrapper);
         setTimeout(() => {
             typeof this.options.events.unmount === "function" && this.options.events.unmount();
