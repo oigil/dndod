@@ -74,6 +74,10 @@ class Popup {
                 this.close();
             }
         });
+        $wrapper.addEventListener("click", (e) => {
+            e.stopPropagation();
+            this.close();
+        });
         return $wrapper;
     }
 

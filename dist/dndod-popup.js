@@ -178,6 +178,10 @@ var Popup = function () {
                     _this.close();
                 }
             });
+            $wrapper.addEventListener("click", function (e) {
+                e.stopPropagation();
+                _this.close();
+            });
             return $wrapper;
         }
     }, {
