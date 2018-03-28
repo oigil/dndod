@@ -1,7 +1,7 @@
 ![logo](./docs/readme-logo.png)
 # dndod
 
-Simple and easy modal popup library. It needs no dependancy.    
+Simple and easy javascript modal library with no dependency.
 [https://github.com/oigil/dndod](https://github.com/oigil/dndod)   
  
 [Demo page](https://oigil.github.io/dndod/demo)
@@ -12,7 +12,7 @@ Simple and easy modal popup library. It needs no dependancy.
 ## Features
 * Alert, Confirm, Notice action with modal popup.
 * Customaziable options.
-* No dependancy.
+* No dependency.
 * Supports capturing tab moves in modal.
 * Supports closing modal with ESC key.
 * TODO : WAI-ARIA

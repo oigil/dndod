@@ -1,7 +1,7 @@
 {
   "name": "dndod",
   "version": "1.0.3",
-  "description": "simple and lightweight modal popup",
+  "description": "Simple and easy javascript modal library with no dependency.",
   "author": "Cavin Jo <oigil.jo@gmail.com>",
   "main": "./dist/dndod-popup.min.js",
   "files": [
