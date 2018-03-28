@@ -107,6 +107,11 @@ class Popup {
 
         $popup.setAttribute("tabindex", "0");
 
+        $popup.dndodClickHandler = (e) => {
+            e.stopPropagation();
+        }
+        $popup.addEventListener("click", $popup.dndodClickHandler);
+
         let $title = document.createElement("h1");
         $title.classList.add([this.options.prefixClass,"heading"].join("-"));
         $title[contentProperty] = `${title}`;
@@ -186,6 +191,7 @@ class Popup {
 
     removeAllEventHandler() {
         window.removeEventListener("resize", this.resizeHandler);
+        this.$popup.removeEventListener("click", this.$popup.dndodClickHandler);
         this.$wrapper.removeEventListener("keydown", this.$wrapper.dndodKeydownHandler);
         this.$wrapper.removeEventListener("click", this.$wrapper.dndodClickHandler);
         this.options.buttons.forEach(function(buttonInfo) {
@@ -194,16 +200,15 @@ class Popup {
     }
 
     open() {
-        this.render(this.options.msg, this.options.title);
+        this.$previousActiveElement !== null && this.$previousActiveElement.blur();
 
+        this.render(this.options.msg, this.options.title);
         this.options.animation === "none" && this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
         document.body.appendChild(this.$wrapper);
-        
-        this.$previousActiveElement !== null && this.$previousActiveElement.blur();
 
         setTimeout(() => {
             typeof this.options.events.mount === "function" && this.options.events.mount();
-            this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
+            this.options.animation !== "none" && this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
         });
 
         if (this.options.animation === "none") {

@@ -212,6 +212,11 @@ var Popup = function () {
 
             $popup.setAttribute("tabindex", "0");
 
+            $popup.dndodClickHandler = function (e) {
+                e.stopPropagation();
+            };
+            $popup.addEventListener("click", $popup.dndodClickHandler);
+
             var $title = document.createElement("h1");
             $title.classList.add([this.options.prefixClass, "heading"].join("-"));
             $title[contentProperty] = "" + title;
@@ -302,6 +307,7 @@ var Popup = function () {
         key: "removeAllEventHandler",
         value: function removeAllEventHandler() {
             window.removeEventListener("resize", this.resizeHandler);
+            this.$popup.removeEventListener("click", this.$popup.dndodClickHandler);
             this.$wrapper.removeEventListener("keydown", this.$wrapper.dndodKeydownHandler);
             this.$wrapper.removeEventListener("click", this.$wrapper.dndodClickHandler);
             this.options.buttons.forEach(function (buttonInfo) {
@@ -313,16 +319,15 @@ var Popup = function () {
         value: function open() {
             var _this5 = this;
 
-            this.render(this.options.msg, this.options.title);
+            this.$previousActiveElement !== null && this.$previousActiveElement.blur();
 
+            this.render(this.options.msg, this.options.title);
             this.options.animation === "none" && this.$wrapper.classList.add([this.options.prefixClass, "status-show"].join("-"));
             document.body.appendChild(this.$wrapper);
 
-            this.$previousActiveElement !== null && this.$previousActiveElement.blur();
-
             setTimeout(function () {
                 typeof _this5.options.events.mount === "function" && _this5.options.events.mount();
-                _this5.$wrapper.classList.add([_this5.options.prefixClass, "status-show"].join("-"));
+                _this5.options.animation !== "none" && _this5.$wrapper.classList.add([_this5.options.prefixClass, "status-show"].join("-"));
             });
 
             if (this.options.animation === "none") {
