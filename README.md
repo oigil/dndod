@@ -1,6 +1,9 @@
 ![logo](./docs/readme-logo.png)
 # dndod
 
+![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
+![GitHub package version](https://img.shields.io/github/package-json/v/badges/shields.svg?style=flat-square)
+
 Simple and easy javascript modal library with no dependency.
 [https://github.com/oigil/dndod](https://github.com/oigil/dndod)   
  
