@@ -3,6 +3,8 @@
 
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
 ![GitHub package version](https://img.shields.io/github/package-json/v/badges/shields.svg?style=flat-square)
+![npm](https://img.shields.io/npm/v/npm.svg)
+
 
 Simple and easy javascript modal library with no dependency.
 [https://github.com/oigil/dndod](https://github.com/oigil/dndod)   
