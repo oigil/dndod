@@ -224,7 +224,13 @@ var Popup = function () {
 
             var $message = document.createElement("p");
             $message.classList.add([this.options.prefixClass, "body"].join("-"));
-            $message[contentProperty] = "" + msg;
+
+            if (msg instanceof HTMLElement) {
+                $message.appendChild(msg);
+            } else {
+                $message[contentProperty] = "" + msg;
+            }
+
             $popup.appendChild($message);
 
             return $popup;

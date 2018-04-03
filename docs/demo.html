@@ -135,6 +135,19 @@ dndod.popup({
 });
 </pre>
 
+<hr>
+<h2>Insert DOM Element into message instead of text</h2>
+<a href="javascript:;" id="showDOMAppend">Show demo</a>
+<pre>
+var $msgElement = document.createElement("div");
+$msgElement.innerHTML = "Appended as DOM Element";
+
+// ..write whatever you want to your element..
+
+dndod.popup({
+    msg: $msgElement
+});
+</pre>
 
 
 <script>
@@ -229,6 +242,25 @@ dndod.popup({
                     }
                 }
             ]
+        });
+    }
+
+    showDOMAppend.onclick = function () {
+        var $msgElement = document.createElement("div");
+        $msgElement.innerHTML = "<h3>Appended as DOM Element</h3>";
+        var $linkElement = document.createElement("a");
+        $linkElement.setAttribute("href", "javascript:;");
+        $linkElement.innerText = "Click the link";
+        $linkElement.onclick = function () {
+            alert("Link clicked!");
+            var $text = document.createElement("p");
+            $text.innerHTML = "<small>Link clicked..</small>";
+            $msgElement.appendChild($text);
+        };
+        $msgElement.appendChild($linkElement);
+
+        dndod.popup({
+            msg: $msgElement
         });
     }
 

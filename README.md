@@ -86,7 +86,7 @@ dndod.popup({
 dndod.popup({
     prefixClass: String, //Prefix of classname. (Default : "dndod")
     title: String, //Title (Default : "")
-    msg: String, //Message (Default : "")
+    msg: String | Element, //Message Text or DOM Element (Default : "")
     textAlign: String, //Alignment of title and message. (Default : "center")
     animation: String, //Animation types : "from-top", "from-bottom", "none" (Default : "from-top")
     animationDuration: Number, // Animation Duration in ms (Default : 250)
