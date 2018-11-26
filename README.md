@@ -96,13 +96,14 @@ dndod.popup({
     animation: String, //Animation types : "from-top", "from-bottom", "none" (Default : "from-top")
     animationDuration: Number, // Animation Duration in ms (Default : 250)
     disableCloseBtn: Boolean, // Do not generate close button on the top right corner. (Default : false)
+    disableCloseWithOverlay: Boolean, // Do not trigger closing event on clicking overlay. (Default : false)
     disableOutline: Boolean, // Hide browser-based outline style. (Default : false)
     enableHTML: Boolean, // Enable HTML codes in 'title' and 'msg'. (Default : false)
     events: {
-        create: Function(popup), // Triggered after instance created.
-        mount: Function(popup), // Triggered after DOM element attached to document's body.
-        close: Function(popup), // Triggered after close method is called.
-        unmount: Function(popup) // Triggered after DOM element detached from document's body.   
+        create: Function(), // Triggered after instance created.
+        mount: Function(), // Triggered after DOM element attached to document's body.
+        close: Function(), // Triggered after close method is called.
+        unmount: Function() // Triggered after DOM element detached from document's body.   
     },
     buttons: [  // ArrayList of buttons
         {
