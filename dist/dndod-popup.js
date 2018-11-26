@@ -101,6 +101,7 @@ var originalOptions = Object.freeze({
     "animation": "from-top", // from-top, from-bottom, none
     "animationDuration": 250,
     "disableCloseBtn": false,
+    "disableCloseWithOverlay": false,
     "disableOutline": false,
     "enableHTML": false,
     "events": {
@@ -194,7 +195,9 @@ var Popup = function () {
             };
 
             $wrapper.addEventListener("keydown", $wrapper.dndodKeydownHandler);
-            $wrapper.addEventListener("click", $wrapper.dndodClickHandler);
+            if (!this.options.disableCloseWithOverlay) {
+                $wrapper.addEventListener("click", $wrapper.dndodClickHandler);
+            }
             return $wrapper;
         }
     }, {
